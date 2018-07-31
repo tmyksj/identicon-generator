@@ -1,0 +1,29 @@
+header {
+    margin: 0 auto;
+    max-width: 70rem;
+}
+
+input {
+    border: 0.1rem solid #eeeeee;
+    border-radius: 0.25rem;
+    display: block;
+    font-size: 1rem;
+    line-height: 1.2;
+    padding: 0.25rem 1rem;
+    width: calc(100% - 2.2rem);
+}
+
+input:focus {
+    border-color: #ffcc80;
+    outline: 0;
+}
+
+main {
+    margin: 0 auto;
+    max-width: 70rem;
+}
+
+main > div {
+    margin: 0 auto;
+    width: 32rem;
+}
