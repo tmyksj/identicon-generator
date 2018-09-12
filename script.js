@@ -228,6 +228,9 @@
 
             context.clearRect(0, 0, width, height);
 
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, width, height);
+
             drawTriangle([[0, 8]], 0.8, [
                 [8, 10], [10, 12], [12, 14], [14, 16],
                 [16, 18], [18, 20], [20, 22], [22, 24],
