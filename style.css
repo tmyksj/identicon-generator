@@ -27,3 +27,28 @@ main > div {
     margin: 0 auto;
     width: 32rem;
 }
+
+main > div > canvas {
+    display: none;
+}
+
+main > div > canvas.active {
+    display: inline;
+}
+
+main > nav {
+    margin: 0 auto;
+    width: 32rem;
+}
+
+main > nav > a {
+    border: 0.1rem solid #eeeeee;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    display: inline-block;
+    padding: 0.5rem 1rem;
+}
+
+main > nav > a.active {
+    border-color: #ffcc80;
+}

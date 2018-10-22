@@ -12,9 +12,21 @@
     <h1>identicon-generator</h1>
 </header>
 <main>
+    <nav>
+        <a class="active"
+           href="#pattern-1">Pattern 1</a>
+        <a href="#pattern-2">Pattern 2</a>
+    </nav>
     <div>
-        <canvas height="512"
+        <canvas class="active"
+                height="512"
+                id="pattern-1"
                 width="512"></canvas>
+        <canvas height="512"
+                id="pattern-2"
+                width="512"></canvas>
+    </div>
+    <div>
         <input title="identicon base"
                type="text">
     </div>

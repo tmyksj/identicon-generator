@@ -1,13 +1,13 @@
 (() => {
-    let md5 = (message) => {
-        let if_ = (condition, statement1, statement2) => {
-            if (condition) {
-                return statement1();
-            } else {
-                return statement2();
-            }
-        };
+    let if_ = (condition, statement1, statement2) => {
+        if (condition) {
+            return statement1();
+        } else {
+            return statement2();
+        }
+    };
 
+    let md5 = (message) => {
         let step0 = (message) => {
             return message.split("").map((value, index, array) => {
                 return encodeURIComponent(value);
@@ -180,8 +180,30 @@
         return step5(message);
     };
 
-    let main = () => {
-        let canvas = document.querySelector("canvas");
+    let patternNav = () => {
+        let activate = (id) => {
+            document.querySelectorAll("nav > a").forEach((value, index, array) => {
+                if_(value.getAttribute("href") === id, () => {
+                    value.classList.add("active");
+                    document.querySelector(value.getAttribute("href")).classList.add("active");
+                }, () => {
+                    value.classList.remove("active");
+                    document.querySelector(value.getAttribute("href")).classList.remove("active");
+                });
+            });
+        };
+
+        document.querySelectorAll("nav > a").forEach((value, index, array) => {
+            value.addEventListener("click", (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                activate(value.getAttribute("href"));
+            });
+        });
+    };
+
+    let pattern1 = () => {
+        let canvas = document.querySelector("canvas#pattern-1");
         let input = document.querySelector("input");
 
         let context = canvas.getContext("2d");
@@ -298,6 +320,73 @@
         });
 
         drawIdenticon(md5(input.value));
+    };
+
+    let pattern2 = () => {
+        let canvas = document.querySelector("canvas#pattern-2");
+        let input = document.querySelector("input");
+
+        let context = canvas.getContext("2d");
+        let height = canvas.height;
+        let width = canvas.width;
+
+        let hslStyle = (color, alpha) => {
+            let h = ((color & 0b1110000) >> 4) * 360 / 8;
+            let s = ((color & 0b0001100) >> 2) * 5 + 45;
+            let l = (color & 0b0000011) + 5 + 45;
+            return "hsl(" + h + ", " + s + "%, " + l + "%, " + alpha + ")";
+        };
+
+        let drawIdenticon = (digest) => {
+            let digest2int = (split) => {
+                let digestBinary = digest.split("").map((value, index, array) => {
+                    return ("0000" + parseInt(value, 16).toString(2)).slice(-4);
+                }).join("");
+
+                return parseInt(digestBinary.substring(split[0], split[1]), 2);
+            };
+
+            let drawCircle = (color, alpha, position1, position2, radius) => {
+                context.beginPath();
+
+                context.fillStyle = hslStyle(color, alpha);
+                context.lineWidth = 4;
+                context.strokeStyle = "#ffffff";
+
+                context.arc((position1 % 2 + position2 % 4) * (width / 4),
+                    (Math.floor(position1 / 2) + Math.floor(position2 / 4)) * (height / 4),
+                    (radius + 1) * (width / 16), 0, 2 * Math.PI);
+
+                context.fill();
+                context.stroke();
+            };
+
+            context.clearRect(0, 0, width, height);
+
+            context.fillStyle = "#ffffff";
+            context.fillRect(0, 0, width, height);
+
+            [0, 1, 2, 3, 4, 5, 6, 7].forEach((value, index, array) => {
+                let base = 13 * value;
+                drawCircle(digest2int([base, base + 7]),
+                    0.8,
+                    value % 4,
+                    digest2int([base + 7, base + 11]),
+                    digest2int([base + 11, base + 13]));
+            });
+        };
+
+        input.addEventListener("input", () => {
+            drawIdenticon(md5(input.value));
+        });
+
+        drawIdenticon(md5(input.value));
+    };
+
+    let main = () => {
+        patternNav();
+        pattern1();
+        pattern2();
     };
 
     window.addEventListener("DOMContentLoaded", () => {
